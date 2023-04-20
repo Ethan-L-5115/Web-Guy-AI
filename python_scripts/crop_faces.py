@@ -3,8 +3,8 @@ import os
 from facenet_pytorch import MTCNN
 from helper_functions.face_detection import process_images
 
-input_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/Spring 2023/Image Recognition CompSci 495/New folder/data/raw_data"
-output_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/Spring 2023/Image Recognition CompSci 495/New folder/data/cropped_faces"
+input_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me"
+output_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me_cropped"
 
 # Initialize MTCNN for face detection
 mtcnn = MTCNN()
