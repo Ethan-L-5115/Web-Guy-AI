@@ -34,8 +34,16 @@ for image_path in image_paths:
     feature_vector = vgg_model.predict(img_array)
     features.append(feature_vector.flatten())
 
+# Set numpy print options to avoid ellipsis in the output
+np.set_printoptions(threshold=np.inf)
+
+# Convert numpy arrays to strings with proper formatting
+formatted_features = [np.array2string(feat, separator=',', max_line_width=np.inf)[
+    1:-1] for feat in features]
+
 # Create DataFrame with image paths and features
-df = pd.DataFrame({'image_path': image_paths, 'features': features})
+df = pd.DataFrame({'image_path': image_paths, 'features': formatted_features})
+
 
 # Save DataFrame to CSV file
 df.to_csv('features.csv', index=False)
