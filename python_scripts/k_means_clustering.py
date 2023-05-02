@@ -59,3 +59,4 @@ def k_means_clustering():
     print(clustered_images)
 
     return clustered_images
+#TODO: make first el of list the centroid
