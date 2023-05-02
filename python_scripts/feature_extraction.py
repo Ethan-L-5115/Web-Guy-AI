@@ -26,24 +26,49 @@ def load_and_preprocess_image(image_path):
     return img_array
 
 
-# Extract features
+# Additional imports for other models (replace with actual imports when you have the models)
+# from helper_functions.other_model_1 import create_other_model_1
+# from helper_functions.other_model_2 import create_other_model_2
+# ...
+
+# Extract features using an ensemble of models
+def extract_ensemble_features(image_path, models):
+    ensemble_features = []
+
+    for model_info in models:
+        model, input_shape, version = model_info
+        img_array = load_and_preprocess_image(image_path, input_shape, version)
+        feature_vector = model.predict(img_array)
+        ensemble_features.append(feature_vector.flatten())
+
+    return np.concatenate(ensemble_features)
+
+
+# Load multiple models
 vgg_model = create_vgg_model()
+# other_model_1 = create_other_model_1()
+# other_model_2 = create_other_model_2()
+# ...
+
+# Create a list of models with their input shapes and preprocess_input version
+models = [
+    (vgg_model, (224, 224, 3), 2)  # ,
+    # Replace with actual input shape and version
+    # (other_model_1, (224, 224, 3), 1),
+    # Replace with actual input shape and version
+    # (other_model_2, (224, 224, 3), 1),
+    # ...
+]
+
+# Extract ensemble features
 features = []
 for image_path in image_paths:
-    img_array = load_and_preprocess_image(image_path)
-    feature_vector = vgg_model.predict(img_array)
-    features.append(feature_vector.flatten())
+    feature_vector = extract_ensemble_features(image_path, models)
+    features.append(feature_vector)
 
-# Set numpy print options to avoid ellipsis in the output
+# The rest of the code remains the same
 np.set_printoptions(threshold=np.inf)
-
-# Convert numpy arrays to strings with proper formatting
 formatted_features = [np.array2string(feat, separator=',', max_line_width=np.inf)[
     1:-1] for feat in features]
-
-# Create DataFrame with image paths and features
 df = pd.DataFrame({'image_path': image_paths, 'features': formatted_features})
-
-
-# Save DataFrame to CSV file
 df.to_csv('features.csv', index=False)
