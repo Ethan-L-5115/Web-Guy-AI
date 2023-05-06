@@ -49,6 +49,7 @@ def crop_faces(input_folder, output_folder, image_boxes):
                 # face_count = len(boxes) if boxes is not None else 0
                 # print(f"{image_path}: {face_count} faces detected and cropped")
 
+
 def get_faces(input_folder, output_folder):
     # Initialize MTCNN for face detection
     mtcnn = MTCNN()
