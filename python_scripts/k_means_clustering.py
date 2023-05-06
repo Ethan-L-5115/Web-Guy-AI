@@ -5,6 +5,7 @@ import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from helper_functions.VGG_Face import create_vgg_model
+from cluster_to_file import write_clusters_to_file
 import os
 import random
 from PIL import Image
@@ -47,13 +48,11 @@ def cluster_images(image_paths, cluster_labels):
     return clustered_images
 
 
-def k_means_clustering():
+def k_means_clustering(features_file_path, clustered_folder_path, n_clusters):
     # Load the saved extracted features and image paths
-    features_file_path = 'C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me/features.csv'
     image_paths, features = load_features(features_file_path)
 
     # Perform k-means clustering
-    n_clusters = 2
     cluster_labels, cluster_centroids = kmeans_clustering(features, n_clusters)
 
     # Cluster image paths
@@ -62,6 +61,8 @@ def k_means_clustering():
     # Include centroids in the clustered_images list
     for i, centroid in enumerate(cluster_centroids):
         clustered_images[i].insert(0, centroid.tolist())
+        # Outputs [[[cluster 1 centroid], cluster 1 image filepaths]
+    #                                                            [[#,#,#,#,...],"filepath","filepath","filepath","filepath"...]]
 
-    return clustered_images # Outputs [[[cluster 1 centroid], cluster 1 image filepaths]
-#                                         [[#,#,#,#,...],"filepath","filepath","filepath","filepath"...]]
+    # Print features to file
+    write_clusters_to_file(clustered_images, clustered_folder_path)
