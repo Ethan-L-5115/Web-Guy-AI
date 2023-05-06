@@ -63,14 +63,19 @@ def extract_features(folder_path, output_file_path):
 
     # Extract ensemble features
     features = []
+    image_file_names = []  # Add this line to store image file names
     for image_path in image_paths:
         feature_vector = extract_ensemble_features(image_path, models)
         features.append(feature_vector)
+        # Extract image file name from the path
+        image_file_name = os.path.basename(image_path)
+        # Add the file name to the list
+        image_file_names.append(image_file_name)
 
     # print to file
     np.set_printoptions(threshold=np.inf)
     formatted_features = [np.array2string(feat, separator=',', max_line_width=np.inf)[
         1:-1] for feat in features]
-    df = pd.DataFrame({'image_path': image_paths,
+    df = pd.DataFrame({'image_path': image_file_names,
                       'features': formatted_features})
     df.to_csv(output_file_path + '/features.csv', index=False)
