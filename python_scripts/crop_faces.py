@@ -6,9 +6,6 @@ from helper_functions.face_detection import process_images
 input_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me"
 output_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me_cropped"
 
-# Initialize MTCNN for face detection
-mtcnn = MTCNN()
-
 
 def crop_faces(input_folder, output_folder, image_boxes):
     # Create the output folder if it does not exist
@@ -49,12 +46,15 @@ def crop_faces(input_folder, output_folder, image_boxes):
                 cv2.imwrite(output_path, cropped_face)
 
                 # Count the number of faces detected
-                face_count = len(boxes) if boxes is not None else 0
-                print(f"{image_path}: {face_count} faces detected and cropped")
+                # face_count = len(boxes) if boxes is not None else 0
+                # print(f"{image_path}: {face_count} faces detected and cropped")
 
+def get_faces(input_folder, output_folder):
+    # Initialize MTCNN for face detection
+    mtcnn = MTCNN()
 
-# Call process_images to get the bounding box coordinates
-image_boxes = process_images(input_folder, mtcnn)
+    # Call process_images to get the bounding box coordinates
+    image_boxes = process_images(input_folder, mtcnn)
 
-# Crop the images using the returned bounding boxes
-crop_faces(input_folder, output_folder, image_boxes)
+    # Crop the images using the returned bounding boxes
+    crop_faces(input_folder, output_folder, image_boxes)
