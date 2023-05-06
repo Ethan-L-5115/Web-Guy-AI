@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import pairwise_distances
 from helper_functions.VGG_Face import create_vgg_model
 from cluster_to_file import write_clusters_to_file
 import os
@@ -46,6 +47,36 @@ def cluster_images(image_paths, cluster_labels):
         clustered_images.append(images_in_cluster)
 
     return clustered_images
+
+
+def calculate_average_squared_distances(features, max_clusters, step_size):
+    average_squared_distances = []
+    for n_clusters in range(1, int(max_clusters/step_size) + 1):
+        kmeans = KMeans(n_clusters=n_clusters*step_size,
+                        random_state=42).fit(features)
+        distances = pairwise_distances(kmeans.cluster_centers_, features)
+        closest_distances = np.min(distances, axis=0)
+        average_distance = np.mean(closest_distances)
+        average_squared_distances.append(average_distance)
+    return average_squared_distances
+
+
+def plot_average_squared_distances_chart(average_squared_distances, step_size):
+    plt.plot(range(1, len(average_squared_distances) * step_size + 1, step_size),
+             average_squared_distances)
+    plt.xlabel('Number of Clusters')
+    plt.ylabel('Average Squared Distance')
+    plt.title('Number of Clusters vs. Average Squared Distance')
+    plt.yscale('log')
+    plt.show()
+
+
+def plot_dist_by_clust(features_file_path, max_clusters, step_size):
+    # Load the saved extracted features and image paths
+    image_paths, features = load_features(features_file_path)
+    average_squared_distances = calculate_average_squared_distances(
+        features, max_clusters, step_size)
+    plot_average_squared_distances_chart(average_squared_distances, step_size)
 
 
 def k_means_clustering(features_file_path, clustered_folder_path, n_clusters):
