@@ -8,23 +8,23 @@ import os
 from PIL import Image
 
 # folder_path = folder path to the cropped faces
+
+
 def extract_features(folder_path, output_file_path):
 
     # List all image files in folder
     image_paths = [os.path.join(folder_path, f)
-                for f in os.listdir(folder_path) if f.endswith('.jpg')]
+                   for f in os.listdir(folder_path) if f.endswith('.jpg')]
 
     # Load and preprocess images
 
-
-    def load_and_preprocess_image(image_path):
+    def load_and_preprocess_image(image_path, input_shape, version):
         img = Image.open(image_path)
-        img = img.resize((224, 224))
+        img = img.resize(input_shape[:2])
         img_array = np.array(img, dtype='float32')
         img_array = np.expand_dims(img_array, axis=0)
-        img_array = preprocess_input(img_array, version=2)  # For SENet50
+        img_array = preprocess_input(img_array, version=version)
         return img_array
-
 
     # Additional imports for other models (replace with actual imports when you have the models)
     # from helper_functions.other_model_1 import create_other_model_1
@@ -32,17 +32,18 @@ def extract_features(folder_path, output_file_path):
     # ...
 
     # Extract features using an ensemble of models
+
     def extract_ensemble_features(image_path, models):
         ensemble_features = []
 
         for model_info in models:
             model, input_shape, version = model_info
-            img_array = load_and_preprocess_image(image_path, input_shape, version)
+            img_array = load_and_preprocess_image(
+                image_path, input_shape, version)
             feature_vector = model.predict(img_array)
             ensemble_features.append(feature_vector.flatten())
 
         return np.concatenate(ensemble_features)
-
 
     # Load multiple models
     vgg_model = create_vgg_model()
@@ -66,9 +67,10 @@ def extract_features(folder_path, output_file_path):
         feature_vector = extract_ensemble_features(image_path, models)
         features.append(feature_vector)
 
-    # The rest of the code remains the same
+    # print to file
     np.set_printoptions(threshold=np.inf)
     formatted_features = [np.array2string(feat, separator=',', max_line_width=np.inf)[
         1:-1] for feat in features]
-    df = pd.DataFrame({'image_path': image_paths, 'features': formatted_features})
+    df = pd.DataFrame({'image_path': image_paths,
+                      'features': formatted_features})
     df.to_csv(output_file_path + '/features.csv', index=False)
