@@ -4,6 +4,9 @@ import numpy as np
 import pandas as pd
 from keras_vggface.utils import preprocess_input
 from helper_functions.VGG_Face import create_vgg_model
+from arcface import ArcFace
+from sface import SFace
+from deepid import DeepID
 import os
 from PIL import Image
 
@@ -47,13 +50,21 @@ def extract_features(folder_path, output_file_path):
 
     # Load multiple models
     vgg_model = create_vgg_model()
-    # other_model_1 = create_other_model_1()
+    arcface = ArcFace()
+    sface = SFace.load_model()
+    deepid = DeepID.loadModel()
+
+
+    
     # other_model_2 = create_other_model_2()
     # ...
 
     # Create a list of models with their input shapes and preprocess_input version
     models = [
-        (vgg_model, (224, 224, 3), 2)  # ,
+        (vgg_model, (224, 224, 3), 2),
+        (arcface, (112, 112, 3), "ir_se50"),
+        (SFace.create_model('ResNet50'), (112, 112, 3), 2),
+        (deepid, (55, 47, 3), 1) 
         # Replace with actual input shape and version
         # (other_model_1, (224, 224, 3), 1),
         # Replace with actual input shape and version
