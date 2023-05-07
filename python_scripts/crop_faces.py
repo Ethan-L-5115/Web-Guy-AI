@@ -7,12 +7,9 @@ input_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/t
 output_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me_cropped"
 
 
-def crop_faces(input_folder, output_folder, image_boxes):
+def crop_faces(input_folder, output_folder, image_boxes, leeway):
     # Create the output folder if it does not exist
     os.makedirs(output_folder, exist_ok=True)
-
-    # Leeway percentage
-    leeway = 0.15
 
     # Iterate through all images and their bounding boxes
     for image_path, boxes in image_boxes:
@@ -55,8 +52,10 @@ def get_faces(input_folder, output_folder):
     mtcnn = MTCNN()
 
     # Call process_images to get the bounding box coordinates
-    image_boxes = process_images(input_folder, mtcnn)
+    # process_images(raw images, model used, min resolution, min confidence)
+    image_boxes = process_images(input_folder, mtcnn, 150*150, 0.95)
 
     # Crop the images using the returned bounding boxes
-    crop_faces(input_folder, output_folder, image_boxes)
+    # crop_faces(folder w/faces, output folder, bounding boxes list, additional margin as a ratio)
+    crop_faces(input_folder, output_folder, image_boxes, 0.1)
     print(image_boxes)

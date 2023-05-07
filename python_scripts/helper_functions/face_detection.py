@@ -1,11 +1,9 @@
 import cv2
-import numpy as np
-from facenet_pytorch import MTCNN
 import os
 import glob
 
 
-def process_images(input_folder, mtcnn):
+def process_images(input_folder, mtcnn, min_resolution, min_confidence):
 
     # Store image paths and their corresponding face bounding box coordinates
     image_boxes = []
@@ -16,9 +14,23 @@ def process_images(input_folder, mtcnn):
         image = cv2.imread(image_path)
 
         # Detect faces and their bounding boxes using MTCNN
-        boxes, _ = mtcnn.detect(image)
+        boxes, probs = mtcnn.detect(image)
 
-        # Add the image path and detected boxes to the image_boxes list
-        image_boxes.append((image_path, boxes))
+        # Check if boxes and probs are not None
+        if boxes is not None and probs is not None:
+            # Filter boxes and probabilities based on min_resolution and min_confidence
+            filtered_boxes = []
+            for box, prob in zip(boxes, probs):
+                width = box[2] - box[0]
+                height = box[3] - box[1]
+                resolution = width * height
+
+                if resolution >= min_resolution and prob >= min_confidence:
+                    filtered_boxes.append(box)
+        else:
+            filtered_boxes = []
+
+        # Add the image path and filtered boxes to the image_boxes list
+        image_boxes.append((image_path, filtered_boxes))
 
     return image_boxes
