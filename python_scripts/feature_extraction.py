@@ -4,15 +4,12 @@ import numpy as np
 import pandas as pd
 from keras_vggface.utils import preprocess_input
 from helper_functions.VGG_Face import create_vgg_model
+from helper_functions.arcface_model.py import create_arcface_model
 from arcface import ArcFace
-from sface import SFace
-from deepid import DeepID
+#from sface import SFace
+#from deepid import DeepID
 import os
 from PIL import Image
-# Additional imports for other models (replace with actual imports when you have the models)
-# from helper_functions.other_model_1 import create_other_model_1
-# from helper_functions.other_model_2 import create_other_model_2
-# ...
 
 # folder_path = folder path to the cropped faces
 
@@ -33,6 +30,11 @@ def extract_features(folder_path, output_file_path):
         img_array = preprocess_input(img_array, version=version)
         return img_array
 
+    # Additional imports for other models (replace with actual imports when you have the models)
+    # from helper_functions.other_model_1 import create_other_model_1
+    # from helper_functions.other_model_2 import create_other_model_2
+    # ...
+
     # Extract features using an ensemble of models
 
     def extract_ensemble_features(image_path, models):
@@ -49,9 +51,9 @@ def extract_features(folder_path, output_file_path):
 
     # Load multiple models
     vgg_model = create_vgg_model()
-    arcface = ArcFace()
-    sface = SFace.load_model()
-    deepid = DeepID.loadModel()
+    arcface = create_arcface_model()
+    #sface = SFace.load_model()
+    #deepid = DeepID.loadModel()
 
 
     
@@ -61,9 +63,9 @@ def extract_features(folder_path, output_file_path):
     # Create a list of models with their input shapes and preprocess_input version
     models = [
         (vgg_model, (224, 224, 3), 2),
-        (arcface, (112, 112, 3), "ir_se50"),
-        (SFace.create_model('ResNet50'), (112, 112, 3), 2),
-        (deepid, (55, 47, 3), 1) 
+        (arcface, (112, 112, 3), "ir_se50")
+        #(SFace.create_model('ResNet50'), (112, 112, 3), 2),
+        #(deepid, (55, 47, 3), 1)           
         # Replace with actual input shape and version
         # (other_model_1, (224, 224, 3), 1),
         # Replace with actual input shape and version
