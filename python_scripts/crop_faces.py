@@ -59,3 +59,4 @@ def get_faces(input_folder, output_folder):
 
     # Crop the images using the returned bounding boxes
     crop_faces(input_folder, output_folder, image_boxes)
+    print(image_boxes)

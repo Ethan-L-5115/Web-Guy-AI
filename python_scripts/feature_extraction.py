@@ -6,6 +6,10 @@ from keras_vggface.utils import preprocess_input
 from helper_functions.VGG_Face import create_vgg_model
 import os
 from PIL import Image
+# Additional imports for other models (replace with actual imports when you have the models)
+# from helper_functions.other_model_1 import create_other_model_1
+# from helper_functions.other_model_2 import create_other_model_2
+# ...
 
 # folder_path = folder path to the cropped faces
 
@@ -25,11 +29,6 @@ def extract_features(folder_path, output_file_path):
         img_array = np.expand_dims(img_array, axis=0)
         img_array = preprocess_input(img_array, version=version)
         return img_array
-
-    # Additional imports for other models (replace with actual imports when you have the models)
-    # from helper_functions.other_model_1 import create_other_model_1
-    # from helper_functions.other_model_2 import create_other_model_2
-    # ...
 
     # Extract features using an ensemble of models
 
