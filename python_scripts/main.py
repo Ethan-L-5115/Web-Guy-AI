@@ -19,8 +19,9 @@ get_faces(raw_folder_path, face_folder_path)
 # # Extract features (Comment out when not in use)
 # extract_features(face_folder_path, features_folder_path)
 
-# # # Find optimal k
-# # plot_dist_by_clust(features_folder_path+'/features.csv', 10, 2)
+# # Find optimal k
+# # plot_dist_by_clust(features_file_path, max_clusters, step_size)
+# plot_dist_by_clust(features_folder_path+'/features.csv', 10, 2)
 
 # # Perform k-means clustering (Comment out when not in use)
 # n_clusters = 3
