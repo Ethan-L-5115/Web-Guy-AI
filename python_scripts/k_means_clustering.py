@@ -28,7 +28,7 @@ def kmeans_clustering(features, n_clusters):
     features = scaler.fit_transform(features)
 
     # Perform k-means clustering
-    kmeans = KMeans(n_clusters=n_clusters, random_state=0)
+    kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
     cluster_labels = kmeans.fit_predict(features)
 
     # Get cluster centroids
@@ -51,13 +51,15 @@ def cluster_images(image_paths, cluster_labels):
 
 def calculate_average_squared_distances(features, max_clusters, step_size):
     average_squared_distances = []
-    for n_clusters in range(1, int(max_clusters/step_size) + 1):
-        kmeans = KMeans(n_clusters=n_clusters*step_size,
-                        random_state=42).fit(features)
+    for n_clusters in range(1, int(max_clusters / step_size) + 1):
+        kmeans = KMeans(n_clusters=n_clusters * step_size,
+                        random_state=42, n_init=10)
+        cluster_labels = kmeans.fit_predict(features)
         distances = pairwise_distances(kmeans.cluster_centers_, features)
         closest_distances = np.min(distances, axis=0)
         average_distance = np.mean(closest_distances)
         average_squared_distances.append(average_distance)
+        del kmeans  # Explicitly delete the kmeans object to free memory
     return average_squared_distances
 
 
