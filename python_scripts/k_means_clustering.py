@@ -84,9 +84,11 @@ def k_means_clustering(features_file_path, clustered_folder_path, n_clusters):
     image_paths, features = load_features(features_file_path)
 
     # Perform k-means clustering
+    print("Starting kmeans_clustering()")
     cluster_labels, cluster_centroids = kmeans_clustering(features, n_clusters)
 
     # Cluster image paths
+    print("Starting cluster_images()")
     clustered_images = cluster_images(image_paths, cluster_labels)
 
     # Include centroids in the clustered_images list
@@ -96,4 +98,5 @@ def k_means_clustering(features_file_path, clustered_folder_path, n_clusters):
     #                                                            [[#,#,#,#,...],"filepath","filepath","filepath","filepath"...]]
 
     # Print features to file
+    print("Writing cluster to .csv file")
     write_clusters_to_file(clustered_images, clustered_folder_path)

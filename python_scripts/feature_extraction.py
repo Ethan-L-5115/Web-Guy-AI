@@ -84,6 +84,8 @@ def extract_features(folder_path, output_file_path):
         # Add the file name to the list
         image_file_names.append(image_file_name)
 
+    print("Printing features to .csv file")
+
     # print to file
     np.set_printoptions(threshold=np.inf)
     formatted_features = [np.array2string(feat, separator=',', max_line_width=np.inf)[
