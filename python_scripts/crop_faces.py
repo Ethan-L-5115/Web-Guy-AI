@@ -54,7 +54,7 @@ def get_faces(input_folder, output_folder):
     # Call process_images to get the bounding box coordinates
     # process_images(raw images, model used, min resolution, min confidence)
     print("Starting process_images()")
-    image_boxes = process_images(input_folder, mtcnn, 9000, 0.90)
+    image_boxes = process_images(input_folder, mtcnn, 9000, 0.95)
 
     # Crop the images using the returned bounding boxes
     # crop_faces(folder w/faces, output folder, bounding boxes list, additional margin as a ratio)
