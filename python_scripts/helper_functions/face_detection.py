@@ -2,7 +2,6 @@ import cv2
 import os
 import glob
 
-
 def process_images(input_folder, mtcnn, min_resolution, min_confidence):
 
     # Store image paths and their corresponding face bounding box coordinates
@@ -12,6 +11,11 @@ def process_images(input_folder, mtcnn, min_resolution, min_confidence):
     for image_path in glob.glob(os.path.join(input_folder, "*.jpg")):
         # Read the image
         image = cv2.imread(image_path)
+
+        # Check if the image was correctly read
+        if image is None:
+            print(f"Warning: Could not read image {image_path}, skipping...")
+            continue
 
         # Detect faces and their bounding boxes using MTCNN
         boxes, probs = mtcnn.detect(image)

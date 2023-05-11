@@ -9,19 +9,22 @@ from k_means_clustering import k_means_clustering, plot_dist_by_clust
 # Folder Paths
 raw_folder_path = 'C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me/test_me_raw'
 face_folder_path = 'C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me/face'
-features_folder_path = 'C:/Users/C25Thomas.Blalock/Coding/Image_Web_Guyvre_Data'
-clustered_folder_path = 'C:/Users/C25Thomas.Blalock/Coding/Image_Web_Guyvre_Data/clusters.csv'
+features_folder_path = 'C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me'
+clustered_folder_path = 'C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/test_me/clusters.csv'
 
 
 # Crop faces (Comment out when not in use)
-# get_faces(raw_folder_path, face_folder_path)
+print("Starting get_faces()")
+get_faces(raw_folder_path, face_folder_path)
 
-# # Extract features (Comment out when not in use)
-# extract_features(face_folder_path, features_folder_path)
+# Extract features (Comment out when not in use)
+print("Starting extract_features()")
+extract_features(face_folder_path, features_folder_path)
 
-# Find optimal k
-# plot_dist_by_clust(features_file_path, max_clusters, step_size)
-plot_dist_by_clust(features_folder_path+'/features.csv', 1500, 1499)
+# # Find optimal k
+# # plot_dist_by_clust(features_file_path, max_clusters, step_size)
+# print("Starting plto_dist_by_clust()")
+# plot_dist_by_clust(features_folder_path+'/features.csv', 10000, 200)
 
 # # Perform k-means clustering (Comment out when not in use)
 # n_clusters = 1500
