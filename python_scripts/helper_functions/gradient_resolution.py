@@ -34,6 +34,6 @@ def resize_images(input_folder, output_folder, starting_height, log_factor, num_
 
 # Example usage:
 input_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/imgs_for_report"
-output_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/imgs_for_report/thomas"
+output_folder = "C:/Users/C25Thomas.Blalock/OneDrive - afacademy.af.edu/Desktop/imgs_for_report/ethan"
 resize_images(input_folder, output_folder, starting_height=400,
               log_factor=2, num_iterations=5)

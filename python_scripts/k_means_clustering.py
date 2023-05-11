@@ -12,6 +12,20 @@ import random
 from PIL import Image
 import matplotlib.pyplot as plt
 import ast
+from sklearn.metrics import silhouette_score, davies_bouldin_score
+
+
+def calculate_metrics(features, labels, model):
+    # Calculate inertia
+    inertia = model.inertia_
+
+    # Calculate silhouette score
+    silhouette = silhouette_score(features, labels)
+
+    # Calculate Davies-Bouldin Index
+    db_index = davies_bouldin_score(features, labels)
+
+    return inertia, silhouette, db_index
 
 
 def load_features(file_path):
@@ -34,7 +48,7 @@ def kmeans_clustering(features, n_clusters):
     # Get cluster centroids
     cluster_centroids = scaler.inverse_transform(kmeans.cluster_centers_)
 
-    return cluster_labels, cluster_centroids
+    return cluster_labels, cluster_centroids, kmeans  # return the kmeans model
 
 
 def cluster_images(image_paths, cluster_labels):
@@ -86,7 +100,15 @@ def k_means_clustering(features_file_path, clustered_folder_path, n_clusters):
     image_paths, features = load_features(features_file_path)
 
     # Perform k-means clustering
-    cluster_labels, cluster_centroids = kmeans_clustering(features, n_clusters)
+    cluster_labels, cluster_centroids, kmeans = kmeans_clustering(
+        features, n_clusters)
+
+    # Calculate metrics
+    inertia, silhouette, db_index = calculate_metrics(
+        features, cluster_labels, kmeans)
+
+    print(
+        f"Inertia: {inertia}, Silhouette Score: {silhouette}, Davies-Bouldin Index: {db_index}")
 
     # Cluster image paths
     clustered_images = cluster_images(image_paths, cluster_labels)
